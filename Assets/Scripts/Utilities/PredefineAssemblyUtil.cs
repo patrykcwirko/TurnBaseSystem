@@ -43,7 +43,7 @@ public static class PredefineAssemblyUtil
         }
 
         AddTypesFromAssembly(_assemblyTypes[AssemblyType.AssemblyCSharp], _interfaceType, _types);
-        AddTypesFromAssembly(_assemblyTypes[AssemblyType.AssemblyCSharpFirstPass], _interfaceType, _types);
+        //AddTypesFromAssembly(_assemblyTypes[AssemblyType.AssemblyCSharpFirstPass], _interfaceType, _types);
 
         return _types;
     }

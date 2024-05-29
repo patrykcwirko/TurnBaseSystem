@@ -6,16 +6,19 @@ using UnityEngine;
 public class UnitsManager : MonoBehaviour
 {
     [Header("Player Unit")]
-    [SerializeField] private List<UnitObject> playerUnits = new();
+    [SerializeField] private List<UnitObject> playerUnitsToSpawn = new();
     [SerializeField] private List<Transform> playerUnitTransforms = new();
 
     [Header("Enemy Unit")]
-    [SerializeField] private List<UnitObject> enemyUnits = new();
+    [SerializeField] private List<UnitObject> enemyUnitsToSpawn = new();
     [SerializeField] private List<Transform> enemyUnitTransforms = new();
+    [SerializeField] private float timeBetweenEnemyTurn = 0.2f;
 
     [SerializeField] private GameObject unitPrefab = null;
 
     private List<UnitBehaviour> unitOrder = new();
+    public List<UnitBehaviour> PlayerUnits { get; private set; } = new();
+    public List<UnitBehaviour> EnemyUnits { get; private set; } = new();
     private EventBinding<OnTurnEnd> turnEndBinding = null;
     private OnTurnEnd onturnEnd;
 
@@ -25,10 +28,10 @@ public class UnitsManager : MonoBehaviour
         EventBus<OnTurnEnd>.Register(turnEndBinding);
 
         unitOrder.Clear();
-        SpawnUnits(playerUnits, playerUnitTransforms, false);
-        SpawnUnits(enemyUnits, enemyUnitTransforms, true);
+        SpawnUnits(playerUnitsToSpawn, playerUnitTransforms, false);
+        SpawnUnits(enemyUnitsToSpawn, enemyUnitTransforms, true);
 
-        unitOrder[0].SelectUnit();
+        unitOrder.First().SelectUnit();
     }
 
     private void SpawnUnits(List<UnitObject> _units, List<Transform> unitTransforms, bool _isEnemy)
@@ -40,20 +43,29 @@ public class UnitsManager : MonoBehaviour
             _newUnit.transform.SetParent(unitTransforms[i]);
             _newUnit.transform.localPosition = Vector3.zero;
             unitOrder.Add(_newUnit);
+
+            if(_isEnemy)
+            {
+                EnemyUnits.Add(_newUnit);
+            }
+            else
+            {
+                PlayerUnits.Add(_newUnit);
+            }
         }
     }
 
     private void OnEndTurn()
     {
-        unitOrder[0].DeselectUnit();
+        unitOrder.First().DeselectUnit();
 
-        UnitBehaviour _unit = unitOrder[0];
+        UnitBehaviour _unit = unitOrder.First();
         unitOrder.Remove(_unit);
         unitOrder.Add(_unit);
 
-        unitOrder[0].SelectUnit();
+        unitOrder.First().SelectUnit();
 
-        if (unitOrder[0].IsEnemy)
+        if (unitOrder.First().IsEnemy)
         {
             StartCoroutine(DoEnemyTurn());
         }
@@ -61,7 +73,9 @@ public class UnitsManager : MonoBehaviour
 
     private IEnumerator DoEnemyTurn()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return unitOrder.First().AI.DoAction(this, unitOrder.First());
+
+        yield return Waiters.WaitForSeconds(timeBetweenEnemyTurn);
 
         EventBus<OnTurnEnd>.Raise(onturnEnd);
     }

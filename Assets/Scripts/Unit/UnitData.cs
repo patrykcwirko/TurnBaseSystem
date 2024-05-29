@@ -6,6 +6,7 @@ public class UnitData : IGUIDContainer
 {
     [field: SerializeField] public int MaxHP { get; private set; } = 100;
     [field: SerializeField] public int MaxMana { get; private set; } = 100;
+    [field: SerializeField] public int AttackPower { get; private set; } = 100;
     [HideInInspector] public int CurrnetHP = 0;
     [HideInInspector] public int CurrnetMana = 0;
 
@@ -15,6 +16,7 @@ public class UnitData : IGUIDContainer
     {
         MaxHP = _object.Data.MaxHP;
         MaxMana = _object.Data.MaxMana;
+        AttackPower = _object.Data.AttackPower;
         CurrnetHP = _object.Data.MaxHP;
         CurrnetMana = _object.Data.MaxMana;
     }
@@ -35,5 +37,10 @@ public class UnitData : IGUIDContainer
         {
             guid = Guid.NewGuid().ToString();
         }
+    }
+
+    public void TakeDamage(int _amount)
+    {
+        CurrnetHP -= _amount;
     }
 }
