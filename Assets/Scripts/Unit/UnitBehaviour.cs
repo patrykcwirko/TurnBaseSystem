@@ -1,3 +1,4 @@
+using Abilities;
 using UnityEngine;
 
 public class UnitBehaviour : MonoBehaviour
@@ -6,7 +7,7 @@ public class UnitBehaviour : MonoBehaviour
     [SerializeField] private Bar lifeBar = null;
     [SerializeField] private Bar manaBar = null;
 
-    public bool IsEnemy => isEnemy;
+    public UnitTeam Team => data.Team;
     public UnitData Data => data;
     public UnitAI AI => ai;
 
@@ -14,11 +15,11 @@ public class UnitBehaviour : MonoBehaviour
     private UnitAI ai = null;
     private bool isEnemy = false;
 
-    public void Init(UnitObject _object, bool _isEnemy)
+    public void Init(UnitObject _object, Skill _skill, UnitTeam _team)
     {
-        isEnemy = _isEnemy;
-        data = new UnitData(_object);
+        data = new UnitData(_object, _team);
         ai = _object.AI;
+        data.AssigneSkill(_skill);
         RefreshVisual();
     }
 

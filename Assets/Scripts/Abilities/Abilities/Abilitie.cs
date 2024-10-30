@@ -9,8 +9,11 @@ namespace Abilities
         [field: SerializeField] public string Name { get; private set; }
         [field: SerializeField] public AbilitiesTag[] Tags { get; private set; }
 
-        public void DoAbilities(Skill _skill, UnitsManager _units)
+        public virtual bool MustSetectUnit() => false;
+
+        public virtual bool DoAbilities(Skill _skill, UnitsManager _units)
         {
+            return true;
         }
     }
 }

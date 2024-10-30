@@ -7,7 +7,7 @@ namespace Abilities
     {
         public virtual bool ContainTag(Skill _skill)
         {
-            return _skill.skillObject.ContainTag(this);
+            return _skill.ContainTag(this);
         }
     }
 }
