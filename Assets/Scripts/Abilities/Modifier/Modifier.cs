@@ -20,5 +20,6 @@ namespace Abilities
         }
 
         public abstract Abilitie[] DoModifier(Abilitie[] _abilities);
+        public abstract Abilitie[] UndoModifier(Abilitie[] _abilities);
     }
 }

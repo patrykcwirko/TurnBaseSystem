@@ -23,6 +23,12 @@ public class UnitBehaviour : MonoBehaviour
         RefreshVisual();
     }
 
+    public void Init(UnitData _unit)
+    {
+        data = _unit;
+        RefreshVisual();
+    }
+
     public void SelectUnit()
     {
         selectionSprite.SetActive(true);

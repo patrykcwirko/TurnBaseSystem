@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56f6d5a22a816d94eb0f973605271597, type: 3}
-  m_Name: Unit 1
+  m_Script: {fileID: 11500000, guid: 82b5ca35760ff85448481f673868bc98, type: 3}
+  m_Name: Damage Modifier
   m_EditorClassIdentifier: 
-  Data:
-    HP: 100
-    Mana: 100
-    guid: 
+  <Name>k__BackingField: Add Damage
+  <Tags>k__BackingField:
+  - {fileID: 11400000, guid: a332ea5007aecca40a1ae2cb9f4d823d, type: 2}
+  damage: 10

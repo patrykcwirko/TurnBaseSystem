@@ -9,6 +9,7 @@ public class UnitSelector : MonoBehaviour
     private UnitTeam team = UnitTeam.None;
     private UnitsManager unitsManager;
     private UnitBehaviour unit;
+    private bool selected = false;
 
     private void Awake()
     {
@@ -22,36 +23,43 @@ public class UnitSelector : MonoBehaviour
         unitsManager.OnEndSelecting += EndSelecting;
     }
 
-    private void EndSelecting()
-    {
-        ChangeSelectionMode(UnitTeam.None);
-    }
-
     private void OnMouseDown()
     {
-        //if (team == UnitTeam.None) return;
+        if (team == UnitTeam.None) return;
+        if (unit.Team != team) return;
 
-        if (unit.Team == team)
-        {
-            EventBus<OnUnitSelect>.Raise(new OnUnitSelect() { Unit = unit });
-        }
+        EventBus<OnUnitSelect>.Raise(new OnUnitSelect() { Unit = unit });
+        selected = true;       
     }
 
     private void OnMouseEnter()
     {
         if (team == UnitTeam.None) return;
-        Debug.Log("select");
+        if (unit.Team != team) return;
 
         selectionSprite.color = AssetsDatabase.GetSelectionColor(unit.Team);
     }
 
     private void OnMouseExit()
     {
+        if (selected) return;
+
+        selectionSprite.color = Color.clear;
+    }
+
+    public void ResetSelection()
+    {
+        selected = false;
         selectionSprite.color = Color.clear;
     }
 
     private void ChangeSelectionMode(UnitTeam _team)
     {
         team = _team;
+    }
+
+    private void EndSelecting()
+    {
+        ChangeSelectionMode(UnitTeam.None);
     }
 }

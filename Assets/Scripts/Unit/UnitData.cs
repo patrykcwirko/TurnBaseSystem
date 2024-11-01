@@ -18,7 +18,7 @@ public class UnitData : IGUIDContainer
     [HideInInspector] public int CurrnetHP = 0;
     [HideInInspector] public int CurrnetMana = 0;
     [HideInInspector] public UnitTeam Team = 0;
-    [HideInInspector] public Skill skill;
+    [HideInInspector] public Skill Skill;
 
     [SerializeField] private string guid = string.Empty;
 
@@ -43,7 +43,7 @@ public class UnitData : IGUIDContainer
 
     public void AssigneSkill(Skill _skill)
     {
-        skill = _skill;
+        Skill = _skill;
     }
 
     public string GUID => guid;

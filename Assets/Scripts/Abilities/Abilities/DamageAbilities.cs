@@ -1,20 +1,22 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Abilities
 {
+    [Serializable]
     public class DamageAbilities : Abilitie
     {
         public int amount;
 
-        public override bool MustSetectUnit() => true;
-
-        public override bool DoAbilities(Skill _skill, UnitsManager _units)
+        public override IEnumerator DoAbilities(Skill _skill, UnitsManager _units)
         {
-            //_units.CurrentUnit
+            for (int i = 0; i < _units.SelectedUnits.Count; i++)
+            {
+                _units.SelectedUnits[i].TakeDamage(amount);
+            }
 
-            return false;
+            yield return null;
         }
     }
 }

@@ -1,9 +1,12 @@
+using Abilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ModifierSlot : Slots.Slot
 {
     [SerializeField] private ModifierOrb orb;
+
+    public Modifier Modifier => orb.Modifier;
 
     private SkillAssiger assiger;
 
